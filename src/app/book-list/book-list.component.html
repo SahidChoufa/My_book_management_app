@@ -1,18 +1,52 @@
-<h1>Books</h1>
-<div *ngFor="let book of books$ | async">
-    <h2>{{book.title}}</h2>
-    <h3>{{book.author}}</h3>
-    <button (click)="removeBook(book.id)">Remove Book</button>
-</div>
+<div class="container">
+  <div class="card">
+    <h1 style="color: #4CAF50; margin-bottom: 2rem;">Book Management</h1>
 
+    <!-- Search and Filter -->
+    <div class="filter-group">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        placeholder="Search books..."
+        class="search-input">
+      
+      <select [(ngModel)]="filterBy">
+        <option value="all">All</option>
+        <option value="title">By Title</option>
+        <option value="author">By Author</option>
+      </select>
+    </div>
 
-<h2>Create a new book</h2>
+    <!-- Add New Book Form -->
+    <div class="card">
+      <h2 style="color: #8B7355;">Add New Book</h2>
+      <div class="input-group">
+        <input #bookId type="text" placeholder="Book ID" required>
+        <input #bookTitle type="text" placeholder="Book Title" required>
+        <input #bookAuthor type="text" placeholder="Author" required>
+        <button 
+          class="btn btn-primary"
+          (click)="addBook(bookId.value, bookTitle.value, bookAuthor.value); 
+                  bookId.value=''; 
+                  bookTitle.value=''; 
+                  bookAuthor.value=''">
+          Add Book
+        </button>
+      </div>
+    </div>
 
-<div>
-    <input #bookId type="text" placeholder="Book Id">
-    <input #bookTitle type="text" placeholder="Book Title">
-    <input #bookAuthor type="text" placeholder="Author">
-    <button (click)="addBook(bookId.value, bookTitle.value, bookAuthor.value)">
-        Add Book
-    </button>
+    <!-- Book List -->
+    <div class="book-grid">
+      <div *ngFor="let book of (books$ | async) | slice as books">
+        <div *ngFor="let book of filterBooks(books)" class="card">
+          <h2 style="color: #4CAF50; margin: 0;">{{book.title}}</h2>
+          <h3 style="color: #8B7355; margin: 0.5rem 0;">{{book.author}}</h3>
+          <p style="color: #666; font-size: 0.9rem;">ID: {{book.id}}</p>
+          <button class="btn btn-danger" (click)="removeBook(book.id)">
+            Remove Book
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
