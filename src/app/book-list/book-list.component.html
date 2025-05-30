@@ -37,7 +37,7 @@
 
     <!-- Book List -->
     <div class="book-grid">
-      <div *ngFor="let book of (books$ | async) | slice as books">
+      <div *ngFor="let book of (books$ | async) as books">
         <div *ngFor="let book of filterBooks(books)" class="card">
           <h2 style="color: #4CAF50; margin: 0;">{{book.title}}</h2>
           <h3 style="color: #8B7355; margin: 0.5rem 0;">{{book.author}}</h3>
